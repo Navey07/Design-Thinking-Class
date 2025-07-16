@@ -204,17 +204,6 @@
   </div>
 
   <script>
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-      });
-
-    function confirmLogout() {
-      if (confirm("Are you sure you want to log out?")) {
-        window.location.href = "index.html";
-      }
-    }
     const defaultCategories = ['Produce', 'Snacks', 'Beverages', 'Dairy', 'Poultry'];
     let itemsByCategory = {};
 
@@ -350,6 +339,18 @@
           section.innerHTML = `<div class="category-title">${cat}</div><div class="item-list">${filteredItems.map(({ item, index }) => `<div>${item.name} <span style='cursor:pointer' onclick="showItemDetails('${cat}', ${index})">ℹ️</span></div>`).join('')}</div>`;
           container.appendChild(section);
         }
+      }
+    }
+    
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+      });
+
+    function confirmLogout() {
+      if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "index.html";
       }
     }
 
