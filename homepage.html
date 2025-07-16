@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>homepage</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
+    }
+
+    #sidebar-container {
+      width: 25%;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 40px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .top-bar h1 {
+      font-size: 40px;
+    }
+
+    .top-bar .search-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      padding: 8px;
+      font-size: 16px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .search-bar button {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 20px;
+      border: none;
+      background-color: #464e8e;
+      color: white;
+      cursor: pointer;
+    }
+
+    input[type="text"], input[type="number"], input[type="date"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #cccccc;
+      outline: none;
+      width: 400px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 20px;
+      border: none;
+      background-color: #464e8e;
+      color: white;
+      cursor: pointer;
+      width: 150px;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .category-section {
+      margin-top: 20px;
+      border: 1px solid #ffffff;
+      border-radius: 6px;
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .category-title {
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .item-list {
+      margin-left: 20px;
+      display: none;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Courier New', monospace;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    #sidebar-container::-webkit-scrollbar {
+      display: none;
+    }
+    #sidebar-container {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar-container"></div>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <h1 style="text-align: center;">Your Food Journal</h1>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search item">
+        <button onclick="searchItems()">Search</button>
+        <button onclick="openEditItemModal()">Edit Item</button>
+        <button onclick="openEditCategoryModal()">Edit Category</button>
+      </div>
+    </div>
+
+    <div id="categories-container"></div>
+  </div>
+
+  <div id="editCategoryModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Edit Categories</h2>
+      <div id="categoryEditor"></div><br>
+      <button onclick="addCategoryInput()" style="background-color: rgb(21, 185, 155);">Add New Category</button><br>
+      <div class="modal-buttons">
+        <button onclick="document.getElementById('editCategoryModal').style.display='none'" style="background-color: rgb(81, 81, 81);">Cancel</button>
+        <button onclick="saveCategoryEdits()" style="background-color: rgb(67, 67, 220);">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="editItemModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Edit Items</h2>
+      <label>Category:</label>
+      <select id="editItemCategory"></select>
+      <label>Item Name:</label>
+      <input type="text" id="editItemName">
+      <label>Quantity:</label>
+      <input type="number" id="editItemQuantity">
+      <label>Package Size:</label>
+      <input type="text" id="editItemPackage">
+      <label>Price (RM):</label>
+      <input type="text" id="editItemPrice">
+      <label>Expiry Date:</label>
+      <input type="date" id="editItemExpiry">
+      <label>Store Name:</label>
+      <input type="text" id="editItemStore">
+      <div class="modal-buttons">
+        <button onclick="document.getElementById('editItemModal').style.display='none'">Cancel</button>
+        <button onclick="saveEditedItem()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="itemDetailsModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Item Details</h2>
+      <div id="itemDetailsContent"></div>
+      <div class="modal-buttons">
+        <button onclick="deleteCurrentItem()">Delete</button>
+        <button onclick="document.getElementById('itemDetailsModal').style.display='none'">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const defaultCategories = ['Produce', 'Snacks', 'Beverages', 'Dairy', 'Poultry'];
+    let itemsByCategory = {};
+
+    const savedData = localStorage.getItem('itemsByCategory');
+    if (savedData) {
+      itemsByCategory = JSON.parse(savedData);
+    } else {
+      defaultCategories.forEach(cat => itemsByCategory[cat] = []);
+    }
+
+    let currentDetailCategory = null;
+    let currentDetailIndex = null;
+
+    function openEditCategoryModal() {
+      const container = document.getElementById('categoryEditor');
+      container.innerHTML = '';
+      for (const cat in itemsByCategory) {
+        const div = document.createElement('div');
+        div.innerHTML = `<input type="text" value="${cat}" data-original="${cat}" /> <button onclick="this.parentNode.remove()">Delete</button>`;
+        container.appendChild(div);
+      }
+      document.getElementById('editCategoryModal').style.display = 'flex';
+    }
+
+    function addCategoryInput() {
+      const div = document.createElement('div');
+      div.innerHTML = `<input type="text" placeholder="New Category" /> <button onclick="this.parentNode.remove()">Delete</button>`;
+      document.getElementById('categoryEditor').appendChild(div);
+    }
+
+    function saveCategoryEdits() {
+      const inputs = document.querySelectorAll('#categoryEditor input');
+      const newCategories = {};
+      inputs.forEach(input => {
+        const name = input.value.trim();
+        if (name) {
+          const original = input.dataset.original;
+          newCategories[name] = original && itemsByCategory[original] ? itemsByCategory[original] : [];
+        }
+      });
+      for (const cat in itemsByCategory) delete itemsByCategory[cat];
+      Object.assign(itemsByCategory, newCategories);
+      localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
+      document.getElementById('editCategoryModal').style.display = 'none';
+      populateCategories();
+    }
+
+    function populateCategories() {
+      const container = document.getElementById('categories-container');
+      container.innerHTML = '';
+      for (const [cat, items] of Object.entries(itemsByCategory)) {
+        const section = document.createElement('div');
+        section.className = 'category-section';
+        const itemList = items.map((i, index) => `<div>${i.name} <span style="cursor:pointer" onclick="showItemDetails('${cat}', ${index})">ℹ️</span></div>`).join('');
+        section.innerHTML = `<div class="category-title" onclick="toggleItemList(this)">${cat}</div><div class="item-list">${itemList}</div>`;
+        container.appendChild(section);
+      }
+    }
+
+    function toggleItemList(titleElement) {
+      const itemList = titleElement.nextElementSibling;
+      itemList.style.display = itemList.style.display === 'none' || !itemList.style.display ? 'block' : 'none';
+    }
+
+    function openEditItemModal() {
+      const categorySelect = document.getElementById('editItemCategory');
+      categorySelect.innerHTML = '';
+      for (const cat of Object.keys(itemsByCategory)) {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        categorySelect.appendChild(opt);
+      }
+      document.getElementById('editItemName').value = '';
+      document.getElementById('editItemQuantity').value = '';
+      document.getElementById('editItemPackage').value = '';
+      document.getElementById('editItemPrice').value = '';
+      document.getElementById('editItemExpiry').value = '';
+      document.getElementById('editItemStore').value = '';
+      document.getElementById('editItemModal').style.display = 'flex';
+    }
+
+    function saveEditedItem() {
+      const cat = document.getElementById('editItemCategory').value;
+      const name = document.getElementById('editItemName').value;
+      const qty = document.getElementById('editItemQuantity').value;
+      const pkg = document.getElementById('editItemPackage').value;
+      const price = document.getElementById('editItemPrice').value;
+      const expiry = document.getElementById('editItemExpiry').value;
+      const store = document.getElementById('editItemStore').value;
+      itemsByCategory[cat].push({ name, quantity: qty, package: pkg, price, expiry, store });
+      localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
+      document.getElementById('editItemModal').style.display = 'none';
+      populateCategories();
+    }
+
+    function showItemDetails(category, index) {
+      currentDetailCategory = category;
+      currentDetailIndex = index;
+      const item = itemsByCategory[category][index];
+      const content = `
+        <p><strong>Name:</strong> ${item.name}</p>
+        <p><strong>Quantity:</strong> ${item.quantity}</p>
+        <p><strong>Package Size:</strong> ${item.package}</p>
+        <p><strong>Price:</strong> RM ${item.price}</p>
+        <p><strong>Expiry Date:</strong> ${item.expiry}</p>
+        <p><strong>Store:</strong> ${item.store}</p>
+      `;
+      document.getElementById('itemDetailsContent').innerHTML = content;
+      document.getElementById('itemDetailsModal').style.display = 'flex';
+    }
+
+    function deleteCurrentItem() {
+      if (currentDetailCategory !== null && currentDetailIndex !== null) {
+        itemsByCategory[currentDetailCategory].splice(currentDetailIndex, 1);
+        localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
+        document.getElementById('itemDetailsModal').style.display = 'none';
+        populateCategories();
+      }
+    }
+
+    function searchItems() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const container = document.getElementById('categories-container');
+      container.innerHTML = '';
+
+      for (const [cat, items] of Object.entries(itemsByCategory)) {
+        const filteredItems = items.map((item, index) => ({ item, index }))
+          .filter(({ item }) => item.name.toLowerCase().includes(query));
+        if (filteredItems.length > 0) {
+          const section = document.createElement('div');
+          section.className = 'category-section';
+          section.innerHTML = `<div class="category-title">${cat}</div><div class="item-list">${filteredItems.map(({ item, index }) => `<div>${item.name} <span style='cursor:pointer' onclick="showItemDetails('${cat}', ${index})">ℹ️</span></div>`).join('')}</div>`;
+          container.appendChild(section);
+        }
+      }
+    }
+
+    populateCategories();
+    fetch('sidebar.html')
+  .then(response => response.text())
+  .then(data => {
+    const container = document.getElementById('sidebar-container');
+    container.innerHTML = data;
+
+    const scripts = container.querySelectorAll("script");
+    scripts.forEach(script => {
+      eval(script.innerText);
+    });
+  });
+
+  </script>
+</body>
+</html>
