@@ -355,6 +355,17 @@
     });
   });
 
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+      });
+
+    function confirmLogout() {
+      if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "index.html";
+      }
+    }
   </script>
 </body>
 </html>
