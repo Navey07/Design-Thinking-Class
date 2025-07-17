@@ -120,102 +120,102 @@
                 </table>
                 <p style="text-align: center; font-weight: bold; font-size: 20px;" >Added groceries appear here!</p>
                 </div>
-
-        <script>           
-        function toggleCheck(td) {
+<script>
+    function toggleCheck(td) {
         td.classList.toggle('checked');
         const selected = document.querySelector('td.selected');
         if (selected && selected !== td) selected.classList.remove('selected');
         td.classList.toggle('selected');
-        }
+        saveGroceryListToStorage();
+    }
 
-        function confirmAddItem() {
+    function confirmAddItem() {
         const input = document.getElementById('foodName');
         const itemName = input.value.trim();
         if (!itemName) return alert('Enter a valid item name.');
+
         const row = document.createElement('tr');
         const cell = document.createElement('td');
         cell.textContent = itemName;
-        cell.onclick = function() { toggleCheck(this); };
+        cell.onclick = function () { toggleCheck(this); };
         row.appendChild(cell);
-        document.getElementById('checklistTable').querySelector('tbody').appendChild(row);
-        input.value = '';
-        saveGroceryListToStorage()
-        closeAddItem();
-        }
+        document.querySelector('#checklistTable tbody').appendChild(row);
 
-        function removeSelectedItem() {
+        input.value = '';
+        saveGroceryListToStorage();
+    }
+
+    function removeSelectedItem() {
         const selected = document.querySelector('#checklistTable td.selected');
         if (selected) {
             selected.parentElement.remove();
             saveGroceryListToStorage();
-        } else  {
+        } else {
             alert('Select an item first.');
         }
+    }
 
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Delete') {
-                removeSelectedItem();
-            }
-            });
-
-        function clearTable() {
+    function clearTable() {
         const tbody = document.querySelector('#checklistTable tbody');
         tbody.innerHTML = '';
         saveGroceryListToStorage();
-        }
+    }
 
-        fetch('sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar-container').innerHTML = data;
+    function saveGroceryListToStorage() {
+        const items = [];
+        const cells = document.querySelectorAll('#checklistTable tbody td');
+        cells.forEach(cell => {
+            items.push({
+                name: cell.textContent,
+                checked: cell.classList.contains('checked')
+            });
         });
+        localStorage.setItem("groceryItems", JSON.stringify(items));
+    }
 
-      function confirmLogout() {
+    function loadGroceryListFromStorage() {
+        const items = JSON.parse(localStorage.getItem("groceryItems")) || [];
+        const tbody = document.querySelector('#checklistTable tbody');
+        tbody.innerHTML = '';
+        items.forEach(item => {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.textContent = item.name;
+            if (item.checked) cell.classList.add('checked');
+            cell.onclick = function () { toggleCheck(this); };
+            row.appendChild(cell);
+            tbody.appendChild(row);
+        });
+    }
+
+    function confirmLogout() {
         if (confirm("Are you sure you want to log out?")) {
             window.location.href = "index.html";
-        } return false;
-      }
+        }
+        return false;
+    }
+
     fetch('sidebar.html')
-  .then(response => response.text())
-  .then(data => {
-    const container = document.getElementById('sidebar-container');
-    container.innerHTML = data;
+        .then(response => response.text())
+        .then(data => {
+            const container = document.getElementById('sidebar-container');
+            container.innerHTML = data;
 
-      function saveGroceryListToStorage() {
-    const items = [];
-    const cells = document.querySelectorAll('#checklistTable tbody td');
-    cells.forEach(cell => {
-        items.push({
-            name: cell.textContent,
-            checked: cell.classList.contains('checked')
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach(script => {
+                eval(script.innerText);
+            });
         });
-    });
-    localStorage.setItem("groceryItems", JSON.stringify(items));
-}
 
-      function loadGroceryListFromStorage() {
-    const items = JSON.parse(localStorage.getItem("groceryItems")) || [];
-    const tbody = document.querySelector('#checklistTable tbody');
-    tbody.innerHTML = '';
-    items.forEach(item => {
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
-        cell.textContent = item.name;
-        if (item.checked) cell.classList.add('checked');
-        cell.onclick = function () { toggleCheck(this); saveGroceryListToStorage(); };
-        row.appendChild(cell);
-        tbody.appendChild(row);
-    });
-}
+    loadGroceryListFromStorage();
 
-loadGroceryListFromStorage();
-
-    const scripts = container.querySelectorAll("script");
-    scripts.forEach(script => {
-      eval(script.innerText);
+    //permit delete key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Delete') {
+            removeSelectedItem();
+        }
     });
-  });
-        </script>
+</script>
+
     </body>
 </html>
