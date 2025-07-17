@@ -10,32 +10,32 @@
       background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
     }
 
-    #sidebar-container {
+    #sideCtn {
       width: 25%;
     }
 
-    .main-content {
+    .mainCtn {
       flex-grow: 1;
       padding: 40px;
     }
 
-    .top-bar {
+    .topBar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 40px;
     }
 
-    .top-bar h1 {
+    .topBar h1 {
       font-size: 40px;
     }
 
-    .top-bar .search-bar {
+    .topBar .searchBar {
       display: flex;
       gap: 10px;
     }
 
-    .search-bar input {
+    .searchBar input {
       padding: 8px;
       font-size: 16px;
       background: white;
@@ -43,7 +43,7 @@
       border-radius: 4px;
     }
 
-    .search-bar button {
+    .searchBar btn {
       padding: 8px;
       font-size: 16px;
       border-radius: 20px;
@@ -62,7 +62,7 @@
       width: 400px;
     }
 
-    button {
+    btn {
       padding: 10px 15px;
       font-size: 16px;
       border-radius: 20px;
@@ -73,11 +73,11 @@
       width: 150px;
     }
 
-    button:hover {
+    btn:hover {
       opacity: 0.8;
     }
 
-    .category-section {
+    .ctgSection {
       margin-top: 20px;
       border: 1px solid #ffffff;
       border-radius: 6px;
@@ -85,18 +85,18 @@
       padding: 10px;
     }
 
-    .category-title {
+    .ctgTitle {
       font-weight: bold;
       cursor: pointer;
       margin-bottom: 10px;
     }
 
-    .item-list {
+    .itemList {
       margin-left: 20px;
       display: none;
     }
 
-    .modal-overlay {
+    .modalOvl {
       display: none;
       position: fixed;
       top: 0;
@@ -109,7 +109,7 @@
       z-index: 9999;
     }
 
-    .modal-content {
+    .modalCtn {
       background: white;
       padding: 30px;
       border-radius: 10px;
@@ -119,191 +119,191 @@
       font-family: 'Courier New', monospace;
     }
 
-    .modal-content h2 {
+    .modalCtn h2 {
       margin-top: 0;
       text-align: center;
     }
 
-    .modal-buttons {
+    .modalBtn {
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
     }
 
-    #sidebar-container::-webkit-scrollbar {
+    #sideCtn::-webkit-scrollbar {
       display: none;
     }
-    #sidebar-container {
+    #sideCtn {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
   </style>
 </head>
 <body>
-  <div id="sidebar-container"></div>
+  <div id="sideCtn"></div>
 
-  <div class="main-content">
-    <div class="top-bar">
+  <div class="mainCtn">
+    <div class="topBar">
       <h1 style="text-align: center;">Your Food Journal</h1>
-      <div class="search-bar">
+      <div class="searchBar">
         <input type="text" id="searchInput" placeholder="Search item">
-        <button onclick="searchItems()">Search</button>
-        <button onclick="openEditItemModal()">Edit Item</button>
-        <button onclick="openEditCategoryModal()">Edit Category</button>
+        <btn onclick="searchItems()">Search</btn>
+        <btn onclick="editItemThingy()">Edit Item</btn>
+        <btn onclick="editCatThingy()">Edit Category</btn>
       </div>
     </div>
 
-    <div id="categories-container"></div>
+    <div id="catCtn"></div>
   </div>
 
-  <div id="editCategoryModal" class="modal-overlay">
-    <div class="modal-content">
+  <div id="editCatModal" class="modalOvl">
+    <div class="modalCtn">
       <h2>Edit Categories</h2>
-      <div id="categoryEditor"></div><br>
-      <button onclick="addCategoryInput()" style="background-color: rgb(21, 185, 155);">Add New Category</button><br>
-      <div class="modal-buttons">
-        <button onclick="document.getElementById('editCategoryModal').style.display='none'" style="background-color: rgb(81, 81, 81);">Cancel</button>
-        <button onclick="saveCategoryEdits()" style="background-color: rgb(67, 67, 220);">Done</button>
+      <div id="catEdit"></div><br>
+      <btn onclick="addCat()" style="background-color: rgb(21, 185, 155);">Add New Category</btn><br>
+      <div class="modalBtn">
+        <btn onclick="document.getElementById('editCatModal').style.display='none'" style="background-color: rgb(81, 81, 81);">Cancel</btn>
+        <btn onclick="saveCatEdits()" style="background-color: rgb(67, 67, 220);">Done</btn>
       </div>
     </div>
   </div>
 
-  <div id="editItemModal" class="modal-overlay">
-    <div class="modal-content">
+  <div id="editItemModal" class="modalOvl">
+    <div class="modalCtn">
       <h2>Edit Items</h2>
       <label>Category:</label>
-      <select id="editItemCategory"></select>
+      <select id="editItemCat"></select>
       <label>Item Name:</label>
-      <input type="text" id="editItemName">
+      <input type="text" id="editItemName" placeholder="Maggie Cup">
       <label>Quantity:</label>
-      <input type="number" id="editItemQuantity">
+      <input type="number" id="editItemQty" placeholder="24">
       <label>Package Size:</label>
-      <input type="text" id="editItemPackage">
+      <input type="text" id="editItemPkg" placeholder="2 per packet">
       <label>Price (RM):</label>
-      <input type="text" id="editItemPrice">
+      <input type="text" id="editItemPrc" placeholder="6.99">
       <label>Expiry Date:</label>
-      <input type="date" id="editItemExpiry">
+      <input type="date" id="editItemExp">
       <label>Store Name:</label>
-      <input type="text" id="editItemStore">
-      <div class="modal-buttons">
-        <button onclick="document.getElementById('editItemModal').style.display='none'">Cancel</button>
-        <button onclick="saveEditedItem()">Save</button>
+      <input type="text" id="editItemStr" placeholder="ABC Mart">
+      <div class="modalBtn">
+        <btn onclick="document.getElementById('editItemModal').style.display='none'">Cancel</btn>
+        <btn onclick="saveItemEdit()">Save</btn>
       </div>
     </div>
   </div>
 
-  <div id="itemDetailsModal" class="modal-overlay">
-    <div class="modal-content">
+  <div id="itemDtlModal" class="modalOvl">
+    <div class="modalCtn">
       <h2>Item Details</h2>
-      <div id="itemDetailsContent"></div>
-      <div class="modal-buttons">
-        <button onclick="deleteCurrentItem()">Delete</button>
-        <button onclick="document.getElementById('itemDetailsModal').style.display='none'">Close</button>
+      <div id="itemDtlCtn"></div>
+      <div class="modalBtn">
+        <btn onclick="dltItem()">Delete</btn>
+        <btn onclick="document.getElementById('itemDtlModal').style.display='none'">Close</btn>
       </div>
     </div>
   </div>
 
   <script>
-    const defaultCategories = ['Produce', 'Snacks', 'Beverages', 'Dairy', 'Poultry'];
-    let itemsByCategory = {};
+    const dftCat = ['Produce', 'Snacks', 'Beverages', 'Dairy', 'Poultry'];
+    let itemsByCat = {};
 
-    const savedData = localStorage.getItem('itemsByCategory');
+    const savedData = localStorage.getItem('itemsByCat');
     if (savedData) {
-      itemsByCategory = JSON.parse(savedData);
+      itemsByCat = JSON.parse(savedData);
     } else {
-      defaultCategories.forEach(cat => itemsByCategory[cat] = []);
+      dftCat.forEach(cat => itemsByCat[cat] = []);
     }
 
-    let currentDetailCategory = null;
-    let currentDetailIndex = null;
+    let nowDtlCat = null;
+    let nowDtlIndex = null;
 
-    function openEditCategoryModal() {
-      const container = document.getElementById('categoryEditor');
+    function editCatThingy() {
+      const container = document.getElementById('catEdit');
       container.innerHTML = '';
-      for (const cat in itemsByCategory) {
+      for (const cat in itemsByCat) {
         const div = document.createElement('div');
-        div.innerHTML = `<input type="text" value="${cat}" data-original="${cat}" /> <button onclick="this.parentNode.remove()">Delete</button>`;
+        div.innerHTML = `<input type="text" value="${cat}" data-original="${cat}" /> <btn onclick="this.parentNode.remove()">Delete</btn>`;
         container.appendChild(div);
       }
-      document.getElementById('editCategoryModal').style.display = 'flex';
+      document.getElementById('editCatModal').style.display = 'flex';
     }
 
-    function addCategoryInput() {
+    function addCat() {
       const div = document.createElement('div');
-      div.innerHTML = `<input type="text" placeholder="New Category" /> <button onclick="this.parentNode.remove()">Delete</button>`;
-      document.getElementById('categoryEditor').appendChild(div);
+      div.innerHTML = `<input type="text" placeholder="New Category" /> <btn onclick="this.parentNode.remove()">Delete</btn>`;
+      document.getElementById('catEdit').appendChild(div);
     }
 
-    function saveCategoryEdits() {
-      const inputs = document.querySelectorAll('#categoryEditor input');
-      const newCategories = {};
+    function saveCatEdits() {
+      const inputs = document.querySelectorAll('#catEdit input');
+      const newCat = {};
       inputs.forEach(input => {
         const name = input.value.trim();
         if (name) {
           const original = input.dataset.original;
-          newCategories[name] = original && itemsByCategory[original] ? itemsByCategory[original] : [];
+          newCat[name] = original && itemsByCat[original] ? itemsByCat[original] : [];
         }
       });
-      for (const cat in itemsByCategory) delete itemsByCategory[cat];
-      Object.assign(itemsByCategory, newCategories);
-      localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
-      document.getElementById('editCategoryModal').style.display = 'none';
-      populateCategories();
+      for (const cat in itemsByCat) delete itemsByCat[cat];
+      Object.assign(itemsByCat, newCat);
+      localStorage.setItem('itemsByCat', JSON.stringify(itemsByCat));
+      document.getElementById('editCatModal').style.display = 'none';
+      populateCat();
     }
 
-    function populateCategories() {
-      const container = document.getElementById('categories-container');
+    function populateCat() {
+      const container = document.getElementById('catCtn');
       container.innerHTML = '';
-      for (const [cat, items] of Object.entries(itemsByCategory)) {
+      for (const [cat, items] of Object.entries(itemsByCat)) {
         const section = document.createElement('div');
-        section.className = 'category-section';
-        const itemList = items.map((i, index) => `<div>${i.name} <span style="cursor:pointer" onclick="showItemDetails('${cat}', ${index})">ℹ️</span></div>`).join('');
-        section.innerHTML = `<div class="category-title" onclick="toggleItemList(this)">${cat}</div><div class="item-list">${itemList}</div>`;
+        section.className = 'ctgSection';
+        const itemList = items.map((i, index) => `<div>${i.name} <span style="cursor:pointer" onclick="showItemDetail('${cat}', ${index})">ℹ️</span></div>`).join('');
+        section.innerHTML = `<div class="ctgTitle" onclick="toggItmList(this)">${cat}</div><div class="itemList">${itemList}</div>`;
         container.appendChild(section);
       }
     }
 
-    function toggleItemList(titleElement) {
-      const itemList = titleElement.nextElementSibling;
+    function toggItmList(tElement) {
+      const itemList = tElement.nextElementSibling;
       itemList.style.display = itemList.style.display === 'none' || !itemList.style.display ? 'block' : 'none';
     }
 
-    function openEditItemModal() {
-      const categorySelect = document.getElementById('editItemCategory');
-      categorySelect.innerHTML = '';
-      for (const cat of Object.keys(itemsByCategory)) {
+    function editItemThingy() {
+      const catSelect = document.getElementById('editItemCat');
+      catSelect.innerHTML = '';
+      for (const cat of Object.keys(itemsByCat)) {
         const opt = document.createElement('option');
         opt.value = cat;
         opt.textContent = cat;
-        categorySelect.appendChild(opt);
+        catSelect.appendChild(opt);
       }
       document.getElementById('editItemName').value = '';
-      document.getElementById('editItemQuantity').value = '';
-      document.getElementById('editItemPackage').value = '';
-      document.getElementById('editItemPrice').value = '';
-      document.getElementById('editItemExpiry').value = '';
-      document.getElementById('editItemStore').value = '';
+      document.getElementById('editItemQty').value = '';
+      document.getElementById('editItemPkg').value = '';
+      document.getElementById('editItemPrc').value = '';
+      document.getElementById('editItemExp').value = '';
+      document.getElementById('editItemStr').value = '';
       document.getElementById('editItemModal').style.display = 'flex';
     }
 
-    function saveEditedItem() {
-      const cat = document.getElementById('editItemCategory').value;
+    function saveItemEdit() {
+      const cat = document.getElementById('editItemCat').value;
       const name = document.getElementById('editItemName').value;
-      const qty = document.getElementById('editItemQuantity').value;
-      const pkg = document.getElementById('editItemPackage').value;
-      const price = document.getElementById('editItemPrice').value;
-      const expiry = document.getElementById('editItemExpiry').value;
-      const store = document.getElementById('editItemStore').value;
-      itemsByCategory[cat].push({ name, quantity: qty, package: pkg, price, expiry, store });
-      localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
+      const qty = document.getElementById('editItemQty').value;
+      const pkg = document.getElementById('editItemPkg').value;
+      const price = document.getElementById('editItemPrc').value;
+      const expiry = document.getElementById('editItemExp').value;
+      const store = document.getElementById('editItemStr').value;
+      itemsByCat[cat].push({ name, quantity: qty, package: pkg, price, expiry, store });
+      localStorage.setItem('itemsByCat', JSON.stringify(itemsByCat));
       document.getElementById('editItemModal').style.display = 'none';
-      populateCategories();
+      populateCat();
     }
 
-    function showItemDetails(category, index) {
-      currentDetailCategory = category;
-      currentDetailIndex = index;
-      const item = itemsByCategory[category][index];
+    function showItemDetail(category, index) {
+      nowDtlCat = category;
+      nowDtlIndex = index;
+      const item = itemsByCat[category][index];
       const content = `
         <p><strong>Name:</strong> ${item.name}</p>
         <p><strong>Quantity:</strong> ${item.quantity}</p>
@@ -312,37 +312,37 @@
         <p><strong>Expiry Date:</strong> ${item.expiry}</p>
         <p><strong>Store:</strong> ${item.store}</p>
       `;
-      document.getElementById('itemDetailsContent').innerHTML = content;
-      document.getElementById('itemDetailsModal').style.display = 'flex';
+      document.getElementById('itemDtlCtn').innerHTML = content;
+      document.getElementById('itemDtlModal').style.display = 'flex';
     }
 
-    function deleteCurrentItem() {
-      if (currentDetailCategory !== null && currentDetailIndex !== null) {
-        itemsByCategory[currentDetailCategory].splice(currentDetailIndex, 1);
-        localStorage.setItem('itemsByCategory', JSON.stringify(itemsByCategory));
-        document.getElementById('itemDetailsModal').style.display = 'none';
-        populateCategories();
+    function dltItem() {
+      if (nowDtlCat !== null && nowDtlIndex !== null) {
+        itemsByCat[nowDtlCat].splice(nowDtlIndex, 1);
+        localStorage.setItem('itemsByCat', JSON.stringify(itemsByCat));
+        document.getElementById('itemDtlModal').style.display = 'none';
+        populateCat();
       }
     }
 
     function searchItems() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      const container = document.getElementById('categories-container');
+      const container = document.getElementById('catCtn');
       container.innerHTML = '';
 
-      for (const [cat, items] of Object.entries(itemsByCategory)) {
+      for (const [cat, items] of Object.entries(itemsByCat)) {
         const filteredItems = items.map((item, index) => ({ item, index }))
           .filter(({ item }) => item.name.toLowerCase().includes(query));
         if (filteredItems.length > 0) {
           const section = document.createElement('div');
-          section.className = 'category-section';
-          section.innerHTML = `<div class="category-title">${cat}</div><div class="item-list">${filteredItems.map(({ item, index }) => `<div>${item.name} <span style='cursor:pointer' onclick="showItemDetails('${cat}', ${index})">ℹ️</span></div>`).join('')}</div>`;
+          section.className = 'ctgSection';
+          section.innerHTML = `<div class="ctgTitle">${cat}</div><div class="itemList">${filteredItems.map(({ item, index }) => `<div>${item.name} <span style='cursor:pointer' onclick="showItemDetail('${cat}', ${index})">ℹ️</span></div>`).join('')}</div>`;
           container.appendChild(section);
         }
       }
     }
     
-  function confirmLogout() {
+  function confLogout() {
     if (confirm("Are you sure you want to log out?")) {
       window.location.href = "index.html";
     }
@@ -352,14 +352,14 @@
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
+        document.getElementById('sideCtn').innerHTML = data;
       });
 
-    populateCategories();
+    populateCat();
     fetch('sidebar.html')
   .then(response => response.text())
   .then(data => {
-    const container = document.getElementById('sidebar-container');
+    const container = document.getElementById('sideCtn');
     container.innerHTML = data;
 
     const scripts = container.querySelectorAll("script");
