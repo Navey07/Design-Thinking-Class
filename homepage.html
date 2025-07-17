@@ -355,7 +355,7 @@
       const container = document.getElementById('sideCtn');
       container.innerHTML = data;
 
-      const logoutLink = container.querySelector('a[href="#"]');
+      const logoutLink = container.querySelector('a[href="#logoutBtn"]');
       if (logoutLink) {
         logoutLink.onclick = function () {
           return confLogout();
