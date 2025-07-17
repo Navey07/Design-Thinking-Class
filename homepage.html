@@ -341,32 +341,34 @@
         }
       }
     }
-    
+
   function confLogout() {
     if (confirm("Are you sure you want to log out?")) {
       window.location.href = "index.html";
     }
     return false;
   }
-    
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sideCtn').innerHTML = data;
+
+  fetch('sidebar.html')
+    .then(response => response.text())
+    .then(data => {
+      const container = document.getElementById('sideCtn');
+      container.innerHTML = data;
+
+      const logoutLink = container.querySelector('a[href="#"]');
+      if (logoutLink) {
+        logoutLink.onclick = function () {
+          return confLogout();
+        };
+      }
+
+      const scripts = container.querySelectorAll("script");
+      scripts.forEach(script => {
+        eval(script.innerText);
       });
-
-    populateCat();
-    fetch('sidebar.html')
-  .then(response => response.text())
-  .then(data => {
-    const container = document.getElementById('sideCtn');
-    container.innerHTML = data;
-
-    const scripts = container.querySelectorAll("script");
-    scripts.forEach(script => {
-      eval(script.innerText);
     });
-  });
+
+  populateCat();
   </script>
 </body>
 </html>
