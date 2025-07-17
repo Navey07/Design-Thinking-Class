@@ -52,11 +52,27 @@
             font-size: 45px;
             }
 
+            .search-bar {
+                flex-wrap: wrap;
+                width:100%;
+                max-width:100%;
+            }
+            
             .top-bar .search-bar {
             display: flex;
             gap: 10px;
             }
 
+            .search-bar input {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .search-bar button {
+                flex-shrink: 0;
+                width: 100px;
+            }
+                        
             .search-bar input, .search-bar button {
             padding: 8px;
             font-size: 16px;
@@ -68,7 +84,7 @@
             border-radius: 10px; 
             border: 1px solid #cccccc;
             outline: none;
-            width: 500px;
+            min-width:200px;
             }
 
             button {
