@@ -140,13 +140,17 @@
         row.appendChild(cell);
         document.getElementById('checklistTable').querySelector('tbody').appendChild(row);
         input.value = '';
+        saveGroceryListToStorage()
         closeAddItem();
         }
 
         function removeSelectedItem() {
         const selected = document.querySelector('#checklistTable td.selected');
-        if (selected) selected.parentElement.remove();
-        else alert('Select an item first.');
+        if (selected) {
+            selected.parentElement.remove();
+            saveGroceryListToStorage();
+        } else  {
+            alert('Select an item first.');
         }
 
         document.addEventListener('keydown', function (e) {
@@ -158,6 +162,7 @@
         function clearTable() {
         const tbody = document.querySelector('#checklistTable tbody');
         tbody.innerHTML = '';
+        saveGroceryListToStorage();
         }
 
         fetch('sidebar.html')
@@ -171,18 +176,46 @@
             window.location.href = "index.html";
         } return false;
       }
-        fetch('sidebar.html')
+    fetch('sidebar.html')
   .then(response => response.text())
   .then(data => {
     const container = document.getElementById('sidebar-container');
     container.innerHTML = data;
+
+      function saveGroceryListToStorage() {
+    const items = [];
+    const cells = document.querySelectorAll('#checklistTable tbody td');
+    cells.forEach(cell => {
+        items.push({
+            name: cell.textContent,
+            checked: cell.classList.contains('checked')
+        });
+    });
+    localStorage.setItem("groceryItems", JSON.stringify(items));
+}
+
+      function loadGroceryListFromStorage() {
+    const items = JSON.parse(localStorage.getItem("groceryItems")) || [];
+    const tbody = document.querySelector('#checklistTable tbody');
+    tbody.innerHTML = '';
+    items.forEach(item => {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.textContent = item.name;
+        if (item.checked) cell.classList.add('checked');
+        cell.onclick = function () { toggleCheck(this); saveGroceryListToStorage(); };
+        row.appendChild(cell);
+        tbody.appendChild(row);
+    });
+}
+
+loadGroceryListFromStorage();
 
     const scripts = container.querySelectorAll("script");
     scripts.forEach(script => {
       eval(script.innerText);
     });
   });
-
         </script>
     </body>
 </html>
