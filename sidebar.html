@@ -49,14 +49,19 @@
                 <li><a href="homepage.html">🏠 Home Page</a></li>
                 <li><a href="recipe.html">🍴 Recipe</a></li>
                 <li><a href="grocery.html">🧺 Grocery</a></li>
-                <li><a href="#" id="logoutBtn">🚪 Log out</a></li>
+                <li><a href="#" id="sidebarCtn">🚪 Log out</a></li>
             </ul>
         </aside>
-        <script>  
-            const user = JSON.parse(localStorage.getItem("currentUser"));
-              if (user && user.fullName) {
-                document.getElementById("welcomeUser").innerText = "Welcome, " + user.fullName;
-              }
+        <script> 
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          if (user && user.fullName) {
+            document.getElementById("welcomeUser").innerText = "Welcome, " + user.fullName;
+          }
+        
+          document.getElementById('logoutBtn').onclick = function (e) {
+            e.preventDefault();
+            confLogout(); 
+          };
         </script>   
     </body>
 </html>
