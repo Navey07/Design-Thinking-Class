@@ -10,32 +10,32 @@
       background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
     }
 
-    #sidebar-container {
+    #sidebarCtn {
       width: 25%;
     }
 
-    .main-content {
+    .mainCtn {
       flex-grow: 1;
       padding: 40px;
     }
 
-    .top-bar {
+    .topBar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 40px;
     }
 
-    .top-bar h1 {
+    .topBar h1 {
       font-size: 45px;
     }
 
-    .top-bar .search-bar {
+    .topBar .searchBar {
       display: flex;
       gap: 10px;
     }
 
-    .search-bar input, .search-bar button {
+    .searchBar input, .searchBar btn {
       padding: 8px;
       font-size: 16px;
     }
@@ -50,7 +50,7 @@
       margin-bottom: 10px;
     }
 
-    button {
+    btn {
       padding: 10px 15px;
       font-size: 16px;
       border-radius: 30px;
@@ -61,11 +61,11 @@
       width: 150px;
     }
 
-    button:hover {
+    btn:hover {
       opacity: 0.8;
     }
 
-    .recipe-section {
+    .recipeSect {
       background-color: #ffffffdd;
       border-radius: 12px;
       padding: 20px;
@@ -74,13 +74,13 @@
       transition: background 0.3s, border 0.3s;
     }
 
-    .recipe-header {
+    .recipeHead {
       font-size: 26px;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
-    .recipe-image {
+    .recipeImg {
       width: 100%;
       max-width: 400px;
       height: auto;
@@ -88,21 +88,21 @@
       margin: 10px 0;
     }
 
-    .recipe-details {
+    .recipeDtl {
       display: none;
       padding-left: 20px;
       margin-top: 10px;
     }
 
-    .recipe-details ul, .recipe-details ol {
+    .recipeDtl ul, .recipeDtl ol {
       padding-left: 20px;
     }
 
-    .recipe-section.active .recipe-details {
+    .recipeSect.active .recipeDtl {
       display: block;
     }
 
-    .modal-overlay {
+    .modalOvl {
       display: none;
       position: fixed;
       top: 0; left: 0;
@@ -113,28 +113,28 @@
       z-index: 9999;
     }
 
-    .modal-content {
+    .modalCtn {
       background: white;
       padding: 30px;
       border-radius: 10px;
       width: 500px;
     }
 
-    .modal-buttons {
+    .modalBtn {
       text-align: right;
       margin-top: 15px;
     }
 
-    .modal-buttons button {
+    .modalBtn btn {
       margin-left: 10px;
     }
 
-    .recipe-section.selected {
+    .recipeSect.selected {
       border: 3px solid red;
       background-color: #ffecec;
     }
 
-    #deleteControls {
+    #deleteCtrl {
       display: none;
       text-align: center;
       margin-top: 20px;
@@ -142,15 +142,15 @@
   </style>
 </head>
 <body>
-  <div id="sidebar-container"></div>
+  <div id="sidebarCtn"></div>
 
-  <div class="main-content">
-    <div class="top-bar">
+  <div class="mainCtn">
+    <div class="topBar">
       <h1 style="text-align: center;">Recipes</h1>
-      <div class="search-bar">
+      <div class="searchBar">
         <input type="text" placeholder="Search recipe">
-        <button onclick="openAddRecipeModal()">Create recipe</button>
-        <button onclick="enterDeleteMode()">Remove recipe</button>
+        <btn onclick="addRcpModal()">Create recipe</btn>
+        <btn onclick="dltMode()">Remove recipe</btn>
       </div>
     </div>
 
@@ -158,34 +158,34 @@
       <p style="text-align: center; font-weight: bold; font-size: 20px;">Added recipes appear here!</p>
     </div>
 
-    <div id="deleteControls">
-      <button onclick="deleteSelectedRecipe()" style="background:red; color:white;">Delete</button>
-      <button onclick="exitDeleteMode()" style="background:gray; color:white;">Done</button>
+    <div id="deleteCtrl">
+      <btn onclick="dltSelectRcp()" style="background:red; color:white;">Delete</btn>
+      <btn onclick="xDltMode()" style="background:gray; color:white;">Done</btn>
     </div>
   </div>
 
-  <div id="recipeModal" class="modal-overlay">
-    <div class="modal-content">
+  <div id="rcpModal" class="modalOvl">
+    <div class="modalCtn">
       <h2 style="text-align:center;">Add New Recipe</h2>
 
       <label>Recipe Name:</label>
       <input type="text" id="recipeName">
 
       <label>Image URL:</label>
-      <input type="text" id="recipeImage">
+      <input type="text" id="recipeImg">
 
       <label>Ingredients (comma separated):</label>
-      <input type="text" id="recipeIngredients">
+      <input type="text" id="recipeIngr">
 
       <label>Utensils (comma separated):</label>
-      <input type="text" id="recipeUtensils">
+      <input type="text" id="recipeUtl">
 
       <label>Steps (one per line):</label>
       <textarea id="recipeSteps" rows="4"></textarea>
 
-      <div class="modal-buttons">
-        <button onclick="closeAddRecipeModal()" style="background:#ccc;">Cancel</button>
-        <button onclick="addRecipe()">Add Recipe</button>
+      <div class="modalBtn">
+        <btn onclick="closeAddRcpModal()" style="background:#ccc;">Cancel</btn>
+        <btn onclick="addRecipe()">Add Recipe</btn>
       </div>
     </div>
   </div>
@@ -199,25 +199,25 @@
       if (!deleteMode) {
         el.classList.toggle('active');
       } else {
-        const selected = document.querySelector('.recipe-section.selected');
+        const selected = document.querySelector('.recipeSect.selected');
         if (selected && selected !== el) selected.classList.remove('selected');
         el.classList.toggle('selected');
       }
     }
 
-    function openAddRecipeModal() {
-      document.getElementById('recipeModal').style.display = 'flex';
+    function addRcpModal() {
+      document.getElementById('rcpModal').style.display = 'flex';
     }
 
-    function closeAddRecipeModal() {
-      document.getElementById('recipeModal').style.display = 'none';
+    function closeAddRcpModal() {
+      document.getElementById('rcpModal').style.display = 'none';
     }
 
     function addRecipe() {
       const name = document.getElementById('recipeName').value.trim();
-      const image = document.getElementById('recipeImage').value.trim();
-      const ingredients = document.getElementById('recipeIngredients').value.split(',').map(i => i.trim()).filter(i => i);
-      const utensils = document.getElementById('recipeUtensils').value.split(',').map(i => i.trim()).filter(i => i);
+      const image = document.getElementById('recipeImg').value.trim();
+      const ingredients = document.getElementById('recipeIngr').value.split(',').map(i => i.trim()).filter(i => i);
+      const utensils = document.getElementById('recipeUtl').value.split(',').map(i => i.trim()).filter(i => i);
       const steps = document.getElementById('recipeSteps').value.split('\n').map(s => s.trim()).filter(s => s);
 
       if (!name || !image || ingredients.length === 0 || steps.length === 0) {
@@ -225,12 +225,12 @@
       }
 
       const section = document.createElement('div');
-      section.className = 'recipe-section';
+      section.className = 'recipeSect';
       section.onclick = function () { toggleRecipe(this); };
       section.innerHTML = `
-        <div class="recipe-header">${name}</div>
-        <div class="recipe-details">
-          <img src="${image}" class="recipe-image" alt="${name}">
+        <div class="recipeHead">${name}</div>
+        <div class="recipeDtl">
+          <img src="${image}" class="recipeImg" alt="${name}">
           <p><strong>Ingredients:</strong></p>
           <ul>${ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
           <p><strong>Utensils:</strong></p>
@@ -241,24 +241,24 @@
       `;
 
       document.getElementById('recipeList').appendChild(section);
-      saveRecipesToStorage();
+      saveRcpToStg();
 
       document.getElementById('recipeName').value = '';
-      document.getElementById('recipeImage').value = '';
-      document.getElementById('recipeIngredients').value = '';
-      document.getElementById('recipeUtensils').value = '';
+      document.getElementById('recipeImg').value = '';
+      document.getElementById('recipeIngr').value = '';
+      document.getElementById('recipeUtl').value = '';
       document.getElementById('recipeSteps').value = '';
 
-      closeAddRecipeModal();
+      closeAddRcpModal();
     }
 
-    function enterDeleteMode() {
+    function dltMode() {
       deleteMode = true;
-      document.getElementById('deleteControls').style.display = 'block';
+      document.getElementById('deleteCtrl').style.display = 'block';
     }
 
-    function deleteSelectedRecipe() {
-      const selected = document.querySelector('.recipe-section.selected');
+    function dltSelectRcp() {
+      const selected = document.querySelector('.recipeSect.selected');
       if (selected) {
         if (confirm('Are you sure you want to delete this recipe?')) {
           selected.remove();
@@ -268,19 +268,19 @@
       }
     }
 
-    function exitDeleteMode() {
+    function xDltMode() {
       deleteMode = false;
-      document.getElementById('deleteControls').style.display = 'none';
-      document.querySelectorAll('.recipe-section').forEach(section => {
+      document.getElementById('deleteCtrl').style.display = 'none';
+      document.querySelectorAll('.recipeSect').forEach(section => {
         section.classList.remove('selected');
       });
     }
 
-    function saveRecipesToStorage() {
+    function saveRcpToStg() {
   const allRecipes = [];
-  document.querySelectorAll('.recipe-section').forEach(section => {
-    const name = section.querySelector('.recipe-header').innerText;
-    const img = section.querySelector('.recipe-image').src;
+  document.querySelectorAll('.recipeSect').forEach(section => {
+    const name = section.querySelector('.recipeHead').innerText;
+    const img = section.querySelector('.recipeImg').src;
     const ingredients = Array.from(section.querySelectorAll('ul:nth-of-type(1) li')).map(li => li.innerText);
     const utensils = Array.from(section.querySelectorAll('ul:nth-of-type(2) li')).map(li => li.innerText);
     const steps = Array.from(section.querySelectorAll('ol li')).map(li => li.innerText);
@@ -294,7 +294,7 @@
     fetch('sidebar.html')
   .then(response => response.text())
   .then(data => {
-    const container = document.getElementById('sidebar-container');
+    const container = document.getElementById('sidebarCtn');
     container.innerHTML = data;
 
     const scripts = container.querySelectorAll("script");
@@ -303,26 +303,26 @@
     });
   });
   
-    function confirmLogout() {
+    function confLogout() {
       if (confirm("Are you sure you want to log out?")) {
         window.location.href = "index.html";
       }
       return false;
     }
 
-  function loadRecipesFromStorage() {
+  function loadRcp() {
   const data = localStorage.getItem('savedRecipes');
   if (!data) return;
 
   const recipes = JSON.parse(data);
   recipes.forEach(({ name, img, ingredients, utensils, steps }) => {
     const section = document.createElement('div');
-    section.className = 'recipe-section';
+    section.className = 'recipeSect';
     section.onclick = function () { toggleRecipe(this); };
     section.innerHTML = `
-      <div class="recipe-header">${name}</div>
-      <div class="recipe-details">
-        <img src="${img}" class="recipe-image" alt="${name}">
+      <div class="recipeHead">${name}</div>
+      <div class="recipeDtl">
+        <img src="${img}" class="recipeImg" alt="${name}">
         <p><strong>Ingredients:</strong></p>
         <ul>${ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
         <p><strong>Utensils:</strong></p>
@@ -335,7 +335,7 @@
   });
 }
 
-loadRecipesFromStorage();
+loadRcp();
 
   </script>
 </body>
