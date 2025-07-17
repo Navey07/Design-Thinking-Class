@@ -368,8 +368,6 @@
         scripts.forEach(script => {
           try {
             eval(script.innerText);
-          } catch (err) {
-            console.error("Sidebar script error:", err);
           }
         });
       }, 50);
