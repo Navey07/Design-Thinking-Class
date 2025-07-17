@@ -52,16 +52,18 @@
                 <li><a href="#" id="logoutBtn">🚪 Log out</a></li>
             </ul>
         </aside>
-        <script> 
-          const user = JSON.parse(localStorage.getItem("currentUser"));
-          if (user && user.fullName) {
-            document.getElementById("welcomeUser").innerText = "Welcome, " + user.fullName;
-          }
-        
-          document.getElementById('logoutBtn').onclick = function (e) {
-            e.preventDefault();
-            confLogout(); 
-          };
+        <script>
+            const user = JSON.parse(localStorage.getItem("currentUser"));
+            if (user && user.fullName) {
+                document.getElementById("welcomeUser").innerText = "Welcome, " + user.fullName;
+            }
+            
+  function confLogout() {
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "index.html";
+    }
+    return false;
+  }
         </script>   
     </body>
 </html>
