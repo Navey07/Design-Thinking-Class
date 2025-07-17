@@ -11,7 +11,7 @@
             background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
             }
 
-            #sideBarCtn {
+            #sidebarCtn {
             width: 25%;
             }
                     
@@ -95,7 +95,7 @@
         </style>
     </head>
     <body>
-        <div id="sideBarCtn"></div>
+        <div id="sidebarCtn"></div>
 
         
         <div class="mainCtn">
@@ -125,7 +125,7 @@
         fetch('sidebar.html')
         .then(response => response.text())
         .then(data => {
-            const container = document.getElementById('sideBarCtn');
+            const container = document.getElementById('sidebarCtn');
             container.innerHTML = data;
             
         const scripts = container.querySelectorAll("script");
