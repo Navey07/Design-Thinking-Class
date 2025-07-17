@@ -128,92 +128,94 @@
             const container = document.getElementById('sideBarCtn');
             container.innerHTML = data;
             
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          eval(script.innerText);
+      const logoutBtn = container.querySelector('#logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          confLogout();
         });
       });
-            
+                
       function confLogout() {
         if (confirm("Are you sure you want to log out?")) {
           window.location.href = "index.html";
         }
         return false;
       }
-            
-        function toggleCheck(td) {
+    
+      function toggleCheck(td) {
         td.classList.toggle('checked');
         const selected = document.querySelector('td.selected');
         if (selected && selected !== td) selected.classList.remove('selected');
         td.classList.toggle('selected');
-        }
-
-        function confAddItem() {
+      }
+    
+      function confAddItem() {
         const input = document.getElementById('foodName');
         const itemName = input.value.trim();
         if (!itemName) return alert('Enter a valid item name.');
-            
+    
         const row = document.createElement('tr');
         const cell = document.createElement('td');
         cell.textContent = itemName;
-        cell.onclick = function() { toggleCheck(this); };
+        cell.onclick = function () { toggleCheck(this); };
         row.appendChild(cell);
         document.getElementById('chListTable').querySelector('tbody').appendChild(row);
-        
+    
         input.value = '';
-        saveGryListToStg()
-        }
-
-        function rmvSelectItem() {
+        saveGryListToStg();
+      }
+    
+      function rmvSelectItem() {
         const selected = document.querySelector('#chListTable td.selected');
         if (selected) {
-            selected.parentElement.remove();
-            saveGryListToStg();
-        } else  {
-            alert('Select an item first.');
-        }}
-
-        function clearTbl() {
+          selected.parentElement.remove();
+          saveGryListToStg();
+        } else {
+          alert('Select an item first.');
+        }
+      }
+    
+      function clearTbl() {
         const tbody = document.querySelector('#chListTable tbody');
         tbody.innerHTML = '';
         saveGryListToStg();
-        }
-
+      }
+    
       function saveGryListToStg() {
-    const items = [];
-    const cells = document.querySelectorAll('#chListTable tbody td');
-    cells.forEach(cell => {
-        items.push({
+        const items = [];
+        const cells = document.querySelectorAll('#chListTable tbody td');
+        cells.forEach(cell => {
+          items.push({
             name: cell.textContent,
             checked: cell.classList.contains('checked')
+          });
         });
-    });
-    localStorage.setItem("gryItems", JSON.stringify(items));
-}
-
-    function loadGryListFrmStg() {
-    const items = JSON.parse(localStorage.getItem("gryItems")) || [];
-    const tbody = document.querySelector('#chListTable tbody');
-    tbody.innerHTML = '';
-    items.forEach(item => {
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
-        cell.textContent = item.name;
-        if (item.checked) cell.classList.add('checked');
-        cell.onclick = function () { toggleCheck(this); saveGryListToStg(); };
-        row.appendChild(cell);
-        tbody.appendChild(row);
-    });
-}
-
-            
-    document.addEventListener('keydown', function (e) {
+        localStorage.setItem("gryItems", JSON.stringify(items));
+      }
+    
+      function loadGryListFrmStg() {
+        const items = JSON.parse(localStorage.getItem("gryItems")) || [];
+        const tbody = document.querySelector('#chListTable tbody');
+        tbody.innerHTML = '';
+        items.forEach(item => {
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.textContent = item.name;
+          if (item.checked) cell.classList.add('checked');
+          cell.onclick = function () { toggleCheck(this); saveGryListToStg(); };
+          row.appendChild(cell);
+          tbody.appendChild(row);
+        });
+      }
+    
+      document.addEventListener('keydown', function (e) {
         if (e.key === 'Delete') {
-            rmvSelectItem();
+          rmvSelectItem();
         }
-        });
-            
-    loadGryListFrmStg();
-        </script>
+      });
+    
+      loadGryListFrmStg();
+    </script>
     </body>
 </html>
