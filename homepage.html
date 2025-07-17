@@ -348,32 +348,30 @@
     }
     return false;
   }
-  
   fetch('sidebar.html')
-    .then(response => response.text())
-    .then(data => {
-      const container = document.getElementById('sideCtn');
-      container.innerHTML = data;
-  
-      setTimeout(() => {
-        const logoutBtn = container.querySelector('#logoutBtn');
-        if (logoutBtn) {
-          logoutBtn.onclick = function (e) {
-            e.preventDefault();
-            confLogout();
-          };
+  .then(response => response.text())
+  .then(data => {
+    const container = document.getElementById('sideCtn');
+    container.innerHTML = data;
+
+    setTimeout(() => {
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+      if (user && user.fullName) {
+        const welcomeEl = document.getElementById("welcomeUser");
+        if (welcomeEl) {
+          welcomeEl.innerText = "Welcome, " + user.fullName;
         }
-  
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          try {
-            eval(script.innerText);
-          } catch (err) {
-            console.error("Sidebar script error:", err);
-          }
-        });
-      }, 50);
-    });
+      }
+
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.onclick = function (e) {
+          e.preventDefault();
+          confLogout();
+        };
+      }
+    }, 50);
+  });
 
   populateCat();
   </script>
