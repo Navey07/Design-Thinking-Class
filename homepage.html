@@ -348,25 +348,31 @@
     }
     return false;
   }
-
+  
   fetch('sidebar.html')
     .then(response => response.text())
     .then(data => {
       const container = document.getElementById('sideCtn');
       container.innerHTML = data;
-
-    const logoutBtn = container.querySelector('#logoutBtn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          confLogout();
+  
+      setTimeout(() => {
+        const logoutBtn = container.querySelector('#logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.onclick = function (e) {
+            e.preventDefault();
+            confLogout();
+          };
+        }
+  
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          try {
+            eval(script.innerText);
+          } catch (err) {
+            console.error("Sidebar script error:", err);
+          }
         });
-      }
-
-      const scripts = container.querySelectorAll("script");
-      scripts.forEach(script => {
-        eval(script.innerText);
-      });
+      }, 50);
     });
 
   populateCat();
