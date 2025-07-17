@@ -290,6 +290,11 @@
 
   localStorage.setItem('savedRecipes', JSON.stringify(allRecipes));
 }
+  function confLogout() {
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "index.html";
+    }
+  }
 
   fetch('sidebar.html')
     .then(response => response.text())
@@ -322,25 +327,25 @@
   const recipes = JSON.parse(data);
   recipes.forEach(({ name, img, ingredients, utensils, steps }) => {
     const section = document.createElement('div');
-    section.className = 'recipeSect';
-    section.onclick = function () { toggleRecipe(this); };
-    section.innerHTML = `
-      <div class="recipeHead">${name}</div>
-      <div class="recipeDtl">
-        <img src="${img}" class="recipeImg" alt="${name}">
-        <p><strong>Ingredients:</strong></p>
-        <ul>${ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
-        <p><strong>Utensils:</strong></p>
-        <ul>${utensils.map(i => `<li>${i}</li>`).join('')}</ul>
-        <p><strong>Steps:</strong></p>
-        <ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>
-      </div>
-    `;
-    document.getElementById('recipeList').appendChild(section);
-  });
-}
-
-loadRcp();
+      section.className = 'recipeSect';
+      section.onclick = function () { toggleRecipe(this); };
+      section.innerHTML = `
+        <div class="recipeHead">${name}</div>
+        <div class="recipeDtl">
+          <img src="${img}" class="recipeImg" alt="${name}">
+          <p><strong>Ingredients:</strong></p>
+          <ul>${ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+          <p><strong>Utensils:</strong></p>
+          <ul>${utensils.map(i => `<li>${i}</li>`).join('')}</ul>
+          <p><strong>Steps:</strong></p>
+          <ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>
+        </div>
+      `;
+      document.getElementById('recipeList').appendChild(section);
+    });
+  }
+  
+  loadRcp();
 
   </script>
 </body>
