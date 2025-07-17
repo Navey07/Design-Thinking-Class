@@ -162,7 +162,6 @@
         
         input.value = '';
         saveGroceryListToStorage()
-        closeAddItem();
         }
 
         function removeSelectedItem() {
@@ -172,7 +171,7 @@
             saveGroceryListToStorage();
         } else  {
             alert('Select an item first.');
-        }
+        }}
 
         function clearTable() {
         const tbody = document.querySelector('#checklistTable tbody');
