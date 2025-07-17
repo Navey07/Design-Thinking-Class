@@ -11,32 +11,32 @@
             background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
             }
 
-            #sidebar-container {
+            #sideBarCtn {
             width: 25%;
             }
                     
-            .main-content {
+            .mainCtn {
             flex-grow: 1;
             padding: 40px;
             }
 
-            .top-bar {
+            .topBar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
             }
 
-            .top-bar h1 {
+            .topBar h1 {
             font-size: 45px;
             }
 
-            .top-bar .search-bar {
+            .topBar .searchBar {
             display: flex;
             gap: 10px;
             }
 
-            .search-bar input, .search-bar button {
+            .searchBar input, .searchBar btn {
             padding: 8px;
             font-size: 16px;
             }
@@ -50,7 +50,7 @@
             width: 500px;
             }
 
-            button {
+            btn {
             padding: 10px 15px;
             font-size: 16px;
             border-radius: 20px;
@@ -61,7 +61,7 @@
             width: 120px;
             }
 
-            button:hover {
+            btn:hover {
             opacity: 0.8;
             }
 
@@ -95,21 +95,21 @@
         </style>
     </head>
     <body>
-        <div id="sidebar-container"></div>
+        <div id="sideBarCtn"></div>
 
         
-        <div class="main-content">
-            <div class="top-bar">
+        <div class="mainCtn">
+            <div class="topBar">
             <h1 style="text-align: center;">Grocery List</h1>
-            <div class="search-bar">
+            <div class="searchBar">
                 <input type="text" id="foodName" placeholder="Write your grocery here to add them! Then press 'Add item'">
-                <button onclick="confirmAddItem()">Add item</button>
-                <button onclick="removeSelectedItem()">Remove item</button>
-                <button onclick="clearTable()">Clear Table</button>
+                <btn onclick="confAddItem()">Add item</btn>
+                <btn onclick="rmvSelectItem()">Remove item</btn>
+                <btn onclick="clearTbl()">Clear Table</btn>
             </div>
             </div>
 
-                <table id="checklistTable">
+                <table id="chListTable">
                     <thead>
                     <tr>
                         <th>Checklist</th>
@@ -125,7 +125,7 @@
         fetch('sidebar.html')
         .then(response => response.text())
         .then(data => {
-            const container = document.getElementById('sidebar-container');
+            const container = document.getElementById('sideBarCtn');
             container.innerHTML = data;
             
         const scripts = container.querySelectorAll("script");
@@ -134,7 +134,7 @@
         });
       });
             
-      function confirmLogout() {
+      function confLogout() {
         if (confirm("Are you sure you want to log out?")) {
           window.location.href = "index.html";
         }
@@ -148,7 +148,7 @@
         td.classList.toggle('selected');
         }
 
-        function confirmAddItem() {
+        function confAddItem() {
         const input = document.getElementById('foodName');
         const itemName = input.value.trim();
         if (!itemName) return alert('Enter a valid item name.');
@@ -158,49 +158,49 @@
         cell.textContent = itemName;
         cell.onclick = function() { toggleCheck(this); };
         row.appendChild(cell);
-        document.getElementById('checklistTable').querySelector('tbody').appendChild(row);
+        document.getElementById('chListTable').querySelector('tbody').appendChild(row);
         
         input.value = '';
-        saveGroceryListToStorage()
+        saveGryListToStg()
         }
 
-        function removeSelectedItem() {
-        const selected = document.querySelector('#checklistTable td.selected');
+        function rmvSelectItem() {
+        const selected = document.querySelector('#chListTable td.selected');
         if (selected) {
             selected.parentElement.remove();
-            saveGroceryListToStorage();
+            saveGryListToStg();
         } else  {
             alert('Select an item first.');
         }}
 
-        function clearTable() {
-        const tbody = document.querySelector('#checklistTable tbody');
+        function clearTbl() {
+        const tbody = document.querySelector('#chListTable tbody');
         tbody.innerHTML = '';
-        saveGroceryListToStorage();
+        saveGryListToStg();
         }
 
-      function saveGroceryListToStorage() {
+      function saveGryListToStg() {
     const items = [];
-    const cells = document.querySelectorAll('#checklistTable tbody td');
+    const cells = document.querySelectorAll('#chListTable tbody td');
     cells.forEach(cell => {
         items.push({
             name: cell.textContent,
             checked: cell.classList.contains('checked')
         });
     });
-    localStorage.setItem("groceryItems", JSON.stringify(items));
+    localStorage.setItem("gryItems", JSON.stringify(items));
 }
 
-    function loadGroceryListFromStorage() {
-    const items = JSON.parse(localStorage.getItem("groceryItems")) || [];
-    const tbody = document.querySelector('#checklistTable tbody');
+    function loadGryListFrmStg() {
+    const items = JSON.parse(localStorage.getItem("gryItems")) || [];
+    const tbody = document.querySelector('#chListTable tbody');
     tbody.innerHTML = '';
     items.forEach(item => {
         const row = document.createElement('tr');
         const cell = document.createElement('td');
         cell.textContent = item.name;
         if (item.checked) cell.classList.add('checked');
-        cell.onclick = function () { toggleCheck(this); saveGroceryListToStorage(); };
+        cell.onclick = function () { toggleCheck(this); saveGryListToStg(); };
         row.appendChild(cell);
         tbody.appendChild(row);
     });
@@ -209,11 +209,11 @@
             
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Delete') {
-            removeSelectedItem();
+            rmvSelectItem();
         }
         });
             
-    loadGroceryListFromStorage();
+    loadGryListFrmStg();
         </script>
     </body>
 </html>
