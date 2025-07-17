@@ -342,6 +342,13 @@
       }
     }
     
+  function confirmLogout() {
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "index.html";
+    }
+    return false;
+  }
+    
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
@@ -360,13 +367,6 @@
       eval(script.innerText);
     });
   });
-    
-  function confirmLogout() {
-    if (confirm("Are you sure you want to log out?")) {
-      window.location.href = "index.html";
-    }
-    return false;
-  }
   </script>
 </body>
 </html>
