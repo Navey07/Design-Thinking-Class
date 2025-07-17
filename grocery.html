@@ -4,6 +4,27 @@
         <title>Grocery</title>
 
         <style>
+            @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                max-height: 200px;
+            }
+        
+            .main-content {
+                padding: 20px;
+            }
+        
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
             html, body {
                 height: 100%;
                 margin:0;
