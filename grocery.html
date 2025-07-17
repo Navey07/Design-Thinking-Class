@@ -4,8 +4,13 @@
         <title>Grocery</title>
 
         <style>
+            html, body {
+                height: 100%;
+                margin:0;
+                padding:0;
+            }
+            
             body {
-            margin: 0;
             font-family: 'Courier New', monospace;
             display: flex;
             }
@@ -32,6 +37,7 @@
             background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
             background-size: cover;
             background-repeat: no-repeat;
+            background-position: center;
         }
                     
             .main-content {
@@ -139,7 +145,7 @@
                 </table>
                 <p style="text-align: center; font-weight: bold; font-size: 20px;" >Added groceries appear here!</p>
                 </div>
-
+        </div>
         <script>
         fetch('sidebar.html')
         .then(response => response.text())
