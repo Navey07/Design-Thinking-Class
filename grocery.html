@@ -25,6 +25,7 @@
         .sidebar {
             width: 300px; 
             min-width: 250px;
+            max-height:  100vh;
             background-color: #2c2c5c; 
             color: white;
             overflow-y: auto;
@@ -39,11 +40,6 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-                    
-            .main-content {
-            flex-grow: 1;
-            padding: 40px;
-            }
 
             .top-bar {
             display: flex;
@@ -144,7 +140,7 @@
                     </tbody>
                 </table>
                 <p style="text-align: center; font-weight: bold; font-size: 20px;" >Added groceries appear here!</p>
-                </div>
+            </div>
         </div>
         <script>
         fetch('sidebar.html')
