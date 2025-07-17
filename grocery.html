@@ -12,7 +12,6 @@
 
             .container {
             display: flex;
-            flex-direction: row;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
@@ -32,6 +31,7 @@
             overflow-y: auto;
             background-image: url('https://i.pinimg.com/1200x/0c/1a/36/0c1a3645a6569e802edf98f725b12f78.jpg');
             background-size: cover;
+            background-repeat: no-repeat;
         }
                     
             .main-content {
@@ -114,9 +114,9 @@
         </style>
     </head>
     <body>
-        <div id="container">
-
+        <div class="container">
         <div id="sidebar-container" class="sidebar"></div>
+            
         <div class="main-content">
             <div class="top-bar">
             <h1 style="text-align: center;">Grocery List</h1>
