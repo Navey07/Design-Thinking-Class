@@ -121,7 +121,26 @@
                 <p style="text-align: center; font-weight: bold; font-size: 20px;" >Added groceries appear here!</p>
                 </div>
 
-        <script>           
+        <script>
+            
+        fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar-container').innerHTML = data;
+        });
+
+      function confirmLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+            window.location.href = "index.html";
+        } return false;
+      }
+
+    const scripts = container.querySelectorAll("script");
+    scripts.forEach(script => {
+      eval(script.innerText);
+    });
+  });
+            
         function toggleCheck(td) {
         td.classList.toggle('checked');
         const selected = document.querySelector('td.selected');
@@ -167,18 +186,6 @@
         saveGroceryListToStorage();
         }
 
-        fetch('sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar-container').innerHTML = data;
-        });
-
-      function confirmLogout() {
-        if (confirm("Are you sure you want to log out?")) {
-            window.location.href = "index.html";
-        } return false;
-      }
-
       function saveGroceryListToStorage() {
     const items = [];
     const cells = document.querySelectorAll('#checklistTable tbody td');
@@ -207,12 +214,6 @@
 }
 
 loadGroceryListFromStorage();
-
-    const scripts = container.querySelectorAll("script");
-    scripts.forEach(script => {
-      eval(script.innerText);
-    });
-  });
         </script>
     </body>
 </html>
