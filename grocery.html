@@ -204,7 +204,7 @@
   fetch('sidebar.html')
     .then(response => response.text())
     .then(data => {
-      const container = document.getElementById('sideCtn');
+      const container = document.getElementById('sidebarCtn');
       container.innerHTML = data;
   
       setTimeout(() => {
