@@ -213,6 +213,13 @@
           return confLogout();
         };
       }
+        
+      const scripts = container.querySelectorAll("script");
+      scripts.forEach(script => {
+        eval(script.innerText);
+      });
+    });
+            
     loadGryListFrmStg();
         </script>
     </body>
