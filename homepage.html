@@ -344,8 +344,8 @@
 
   function confLogout() {
     if (confirm("Are you sure you want to log out?")) {
-      localStorage.removeItem("currentUser"); // ensure user is logged out
-      window.location.href = "index.html";    // redirect
+      localStorage.removeItem("currentUser"); 
+      window.location.href = "index.html"; 
     }
   }
     
@@ -367,7 +367,7 @@
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
           logoutBtn.addEventListener("click", function (e) {
-            e.preventDefault(); // prevent link default
+            e.preventDefault(); 
             confLogout();
           });
         }
