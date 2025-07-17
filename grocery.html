@@ -122,12 +122,17 @@
                 </div>
 
         <script>
-            
         fetch('sidebar.html')
         .then(response => response.text())
         .then(data => {
-            document.getElementById('sidebar-container').innerHTML = data;
+            const container = document.getElementById('sidebar-container');
+            container.innerHTML = data;
+            
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          eval(script.innerText);
         });
+      });
 
       function confirmLogout() {
         if (confirm("Are you sure you want to log out?")) {
@@ -135,11 +140,6 @@
         } return false;
       }
 
-    const scripts = container.querySelectorAll("script");
-    scripts.forEach(script => {
-      eval(script.innerText);
-    });
-  });
             
         function toggleCheck(td) {
         td.classList.toggle('checked');
@@ -174,12 +174,6 @@
             alert('Select an item first.');
         }
 
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Delete') {
-                removeSelectedItem();
-            }
-            });
-
         function clearTable() {
         const tbody = document.querySelector('#checklistTable tbody');
         tbody.innerHTML = '';
@@ -213,7 +207,14 @@
     });
 }
 
-loadGroceryListFromStorage();
+            
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Delete') {
+            removeSelectedItem();
+        }
+        });
+            
+    loadGroceryListFromStorage();
         </script>
     </body>
 </html>
