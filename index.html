@@ -3,7 +3,7 @@
     <head>
         <title>Sign In</title>
         <style>
-        .welcome-heading {
+        .welcomeHead {
             text-align: center;
             font-weight: bold;
             font-family: 'Courier New', monospace;
@@ -31,7 +31,7 @@
             padding: 20px;
             }
 
-            .container {
+            .ctn {
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -40,7 +40,7 @@
             max-width: 400px;
             }
 
-            .form-container {
+            .form-ctn {
             position: relative;
             }
 
@@ -69,7 +69,7 @@
             font-size: 16px;
             }
 
-            form button {
+            form btn {
             padding: 12px;
             background: #da923f;
             border: none;
@@ -97,15 +97,15 @@
         </style>
             </head>
             <body>
-                <h1 class="welcome-heading">Your Food Journal</h1>    
+                <h1 class="welcomeHead">Your Food Journal</h1>    
 
-                <div class="container">
-                <div class="form-container" id="formContainer">
+                <div class="ctn">
+                <div class="form-ctn" id="formCtn">
                 <form id="signInForm" class="form active">
                     <h2>Sign In</h2>
                     <input type="email" placeholder="Email" required />
                     <input type="password" placeholder="Password" required />
-                    <button type="submit">Login</button>
+                    <btn type="submit">Login</btn>
                     <p>Don't have an account? <a href="#" onclick="switchForm('signUp')">Sign Up</a></p>
                 </form>
 
@@ -114,7 +114,7 @@
                     <input type="text" placeholder="Full Name" required />
                     <input type="email" placeholder="Email" required />
                     <input type="password" placeholder="Password" required />
-                    <button type="submit">Register</button>
+                    <btn type="submit">Register</btn>
                     <p>Already have an account? <a href="#" onclick="switchForm('signIn')">Sign In</a></p>
                 </form>
                 </div>
@@ -144,7 +144,7 @@
             });
 
 
-            // Verify user login
+            //verify user
             document.getElementById("signInForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const email = this.querySelector('input[type="email"]').value;
