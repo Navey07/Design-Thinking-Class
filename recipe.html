@@ -35,7 +35,7 @@
       gap: 10px;
     }
 
-    .searchBar input, .searchBar btn {
+    .searchBar input, .searchBar button {
       padding: 8px;
       font-size: 16px;
     }
@@ -50,7 +50,7 @@
       margin-bottom: 10px;
     }
 
-    btn {
+    button {
       padding: 10px 15px;
       font-size: 16px;
       border-radius: 30px;
@@ -61,7 +61,7 @@
       width: 150px;
     }
 
-    btn:hover {
+    button:hover {
       opacity: 0.8;
     }
 
@@ -125,7 +125,7 @@
       margin-top: 15px;
     }
 
-    .modalBtn btn {
+    .modalBtn button {
       margin-left: 10px;
     }
 
@@ -149,8 +149,8 @@
       <h1 style="text-align: center;">Recipes</h1>
       <div class="searchBar">
         <input type="text" placeholder="Search recipe">
-        <btn onclick="addRcpModal()">Create recipe</btn>
-        <btn onclick="dltMode()">Remove recipe</btn>
+        <button onclick="addRcpModal()">Create recipe</button>
+        <button onclick="dltMode()">Remove recipe</button>
       </div>
     </div>
 
@@ -159,8 +159,8 @@
     </div>
 
     <div id="deleteCtrl">
-      <btn onclick="dltSelectRcp()" style="background:red; color:white;">Delete</btn>
-      <btn onclick="xDltMode()" style="background:gray; color:white;">Done</btn>
+      <button onclick="dltSelectRcp()" style="background:red; color:white;">Delete</button>
+      <button onclick="xDltMode()" style="background:gray; color:white;">Done</button>
     </div>
   </div>
 
@@ -184,8 +184,8 @@
       <textarea id="recipeSteps" rows="4"></textarea>
 
       <div class="modalBtn">
-        <btn onclick="closeAddRcpModal()" style="background:#ccc;">Cancel</btn>
-        <btn onclick="addRecipe()">Add Recipe</btn>
+        <button onclick="closeAddRcpModal()" style="background:#ccc;">Cancel</button>
+        <button onclick="addRecipe()">Add Recipe</button>
       </div>
     </div>
   </div>
