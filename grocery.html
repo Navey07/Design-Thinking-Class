@@ -187,18 +187,18 @@
     });
 }
 
-            
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Delete') {
             rmvSelectItem();
         }
         });
             
+    loadGryListFrmStg();
+            
   function confLogout() {
     if (confirm("Are you sure you want to log out?")) {
       window.location.href = "index.html";
     }
-    return false;
   }
 
   fetch('sidebar.html')
@@ -206,21 +206,24 @@
     .then(data => {
       const container = document.getElementById('sidebarCtn');
       container.innerHTML = data;
-
-      const logoutLink = container.querySelector('a[href="#"]');
-      if (logoutLink) {
-        logoutLink.onclick = function () {
-          return confLogout();
-        };
+  
+      const logoutBtn = container.querySelector('#logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          confLogout();
+        });
       }
-        
+  
       const scripts = container.querySelectorAll("script");
       scripts.forEach(script => {
-        eval(script.innerText);
+        try {
+          eval(script.innerText);
+        } catch (err) {
+          console.error("Sidebar script error:", err);
+        }
       });
     });
-            
-    loadGryListFrmStg();
         </script>
     </body>
 </html>
