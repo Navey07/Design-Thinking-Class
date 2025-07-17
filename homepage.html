@@ -355,11 +355,12 @@
       const container = document.getElementById('sideCtn');
       container.innerHTML = data;
 
-      const logoutLink = container.querySelector('a[href="#logoutBtn"]');
-      if (logoutLink) {
-        logoutLink.onclick = function () {
-          return confLogout();
-        };
+    const logoutBtn = container.querySelector('#logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          confLogout();
+        });
       }
 
       const scripts = container.querySelectorAll("script");
